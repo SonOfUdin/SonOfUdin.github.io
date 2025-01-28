@@ -1,55 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>poekiugbo</title>
+<title>ekiugbo</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'> </script>
-<style>
-html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+	<style>
+	body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+.w3-quarter img{margin-bottom: -6px; cursor: pointer}
+.w3-quarter img:hover{opacity: 0.6; transition: 0.3s}
 </style>
 </head>
 <body class="w3-light-grey">
 
-<!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-animate-right w3-top w3-text-light-grey w3-large" style="z-index:3;width:250px;font-weight:bold;display:none;right:0;" id="mySidebar">
+  <a href="javascript:void()" onclick="w3_close()" class="w3-bar-item w3-button w3-center w3-padding-32">CLOSE</a> 
+  <a href="index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-center w3-padding-16">HOME</a> 
+  <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-center w3-padding-16">BIBLIOGRAPHY</a> 
+  <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-center w3-padding-16"></a>
+</nav>
 
-  <!-- The Grid -->
-  <div class="w3-row-padding">
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-white w3-xlarge w3-padding-16">
+  <span class="w3-left w3-padding">PHILIP O. EKIUGBO</span>
+  <a href="javascript:void(0)" class="w3-right w3-button w3-white" onclick="w3_open()">☰</a>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content" style="max-width:1600px;margin-top:83px">
   
-    <!-- Left Column -->
-    <div class="w3-third">
-    
-      <div class="w3-white w3-text-grey w3-card-4">
-        <div class="w3-display-container">
-          <img src="https://user-images.githubusercontent.com/90072727/182988326-00d9817f-0588-47b3-8fb9-299e14470b82.png" " style="width:100%" alt="Avatar">
-          <div class="w3-display-bottomleft w3-container w3-text-black">
-            <h2>Philip O. Ekiugbo</h2>
-          </div>
-        </div>
-        <div class="w3-container">
-          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Faculty member</p>
-          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>National Institute for Nigerian Languages, Aba</p>
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>oghenesuowho@gmail.com</p>
-          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>+234 706 285 1103</p>
-          <hr>
-        </div>
-      </div><br> <hr>
-	            <div class="w3-container">
-			    <botton> <a href="index.html">Back to Home Page</a></botton>
-		    </div>
-
-    <!-- End Left Column -->
+  
+  <!-- Modal for full size images on click-->
+  <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
+    <span class="w3-button w3-black w3-xlarge w3-display-topright">×</span>
+    <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+      <img id="img01" class="w3-image">
+      <p id="caption"></p>
     </div>
+  </div>
 
-    <!-- Right Column -->
-    <div class="w3-twothird">
-    
-      <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Bibliography</h2>
+  <!-- About section -->
+  <div class="w3-container w3-dark-grey w3-center w3-text-light-grey w3-padding-32" id="about">
+    <h4><b>URHOBO BIBLIOGRAPHY</b></h4>
+    <div class="w3-content w3-justify" style="max-width:600px">
+      <hr class="w3-opacity">
 <p><b>Disclaimer:</b> This page is created for information, education and dissemination purposes only. NO copyright infringement intended. For queries, send a mail to: oghenesuowho@gmail.com</p>
 
 	      <ul>
@@ -333,19 +332,11 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 <li>Wolff, H. 1959. Niger Delta Languages I: Classification. Anthropological Linguistics, 1(8), 32–53. http://www.jstor.org/stable/30022219</li><br>
 <li>Wolff, Hans. 1959. Niger delta language I: Classification. Anthropological linguistics 1(8): 32-53. (<b>Focus:</b> world list of Epie-Atisa, Degema, Isoko, Urhobo, Bini, Esan, Etsako and Itsekiri)</li> <br>
 <li>Zartman, I. W. 2011. Peacemaking and Proverbs in Urhobo and Yoruba Marital Conflicts: Guest Editor’s Note. African Conflict and Peacebuilding Review 1(2): 120–121. https://doi.org/10.2979/africonfpeacrevi.1.2.120</li><br>
-
-
 </ul>
 
-								</div>
-</section>
-	<hr>
-	<br><br>
-
-<section id="intro" class="main">
-<section id="resources">
-<h2>Resources</h2>
-<ul>
+	    <hr class="w3-opacity">
+      <h4 class="w3-padding-16">Resources</h4>
+	    <ul>
 	<li><a href="http://archive.phonetics.ucla.edu/Language/URH/urh.html" target="_blank">UCLA Phonetic Lab</a>
 	<li><a href ="https://web.archive.org/pdf/search/Urhobo" target="_blank">Archive.Org</a></li>
 	<li><a href="https://www.ethnologue.com/language/urh" target="_blank">Ethnologue</a></li>
@@ -368,33 +359,60 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 	       target="_blank">Africa Bibliography</a></li>
 	<li><a href="https://web.facebook.com/watch/HymnsSongsArchive/" target="_blank"> Ebio (Hymns/Songs Archive)</a></li>
 <li><a href="https://www.semanticscholar.org/search?q=Urhobo&sort=relevance" target="_blank">Semantic Scholar</a></li>
-
 </ul>
-</section> </section>
+			</div>
+		</div>
       </div>
 
-      <div class="w3-container w3-card w3-white">
-
-      </div>
-
-    <!-- End Right Column -->
-    </div>
+	</div>
+</div>
     
-  <!-- End Grid -->
+    </div> </div>
+
+
+	<hr>
+	<br><br>
+
+
+ <div class="w3-white w3-center w3-padding-24">    
+<footer>    
+<a href="https://ninlan.academia.edu/PhilipEkiugbo" target="_blank"> <img src="https://user-images.githubusercontent.com/90072727/182993970-6dd6b50d-ad14-4f09-baeb-b60991f0d7b2.png" width="20" height="20"/></a>
+	<a href="https://www.researchgate.net/profile/Philip-Ekiugbo?ev=hdr_xprf" target="_blank"> <img src="https://user-images.githubusercontent.com/90072727/182993568-c4c6fce3-5917-4b3c-8bff-155596bbbe96.png" width="20" height="20"/></a>    
+	<a href="https://www.linkedin.com/in/philip-oghenesuowho-ekiugbo-80574b101?originalSubdomain=ng" target="_blank"> <img src="https://user-images.githubusercontent.com/90072727/184515892-24fd3d1a-b5a5-426c-9058-15209a24474e.png" width="20" height="20"/></a>    
+	<a href="https://www.facebook.com/pekiugbo/" target="_blank"> <img src="https://user-images.githubusercontent.com/90072727/184515929-952b1319-d911-4417-8df3-6ee2f7354634.png" width="20" height="20"/></a>   
+	<a href="https://twitter.com?PGajin?s=09" target="_blank"> <img src="https://user-images.githubusercontent.com/90072727/184515965-64c52b7f-030a-4f0e-a123-4f1e9c7f70b3.png" width="20" height="20"/></a>   
+	<a href="https://wa.me/2347062851103"> <img src="https://user-images.githubusercontent.com/90072727/182992218-873857e5-325f-4c1a-a733-e36e28d4cd2e.png" width="20" height="20"></a>  
+	<br>
+			<a href="#top"><center>Back to Top</center></a>  <br>
+		<p class="copyright"> &copy Philip O. Ekiugbo <br><br> Last updated January 25, 2025</p>
+</footer>
   </div>
-  
-  <!-- End Page Container -->
+
+<!-- End page content -->
 </div>
 
-<footer class="w3-container w3-teal w3-center w3-margin-top">
-    <a href="https://www.facebook.com/pekiugbo/" target="_blank"> <i class="fa fa-facebook-official w3-hover-opacity"></i></a>
-  <a href="https://twitter.com?PGajin?s=09" target="_blank"><i class="fa fa-twitter w3-hover-opacity"></i></a>
- <a href="https://www.linkedin.com/in/philip-oghenesuowho-ekiugbo-80574b101?originalSubdomain=ng" target="_blank"> <i class="fa fa-linkedin w3-hover-opacity"></i></a>
-<a href="https://ninlan.academia.edu/PhilipEkiugbo" target="_blank"> <i class="fa fa-font w3-hover-opacity"></i> </a>
-<a href="https://www.researchgate.net/profile/Philip-Ekiugbo?ev=hdr_xprf" target="_blank"> <i class="fa fa-researchgate w3-hover-opacity"></i> </a>
-<a href="https://wa.me/2347062851103"> <i class="fab fa-whatsapp w3-hover-opacity"></i> </a>
-  <p> Last edited January 1, 2025</p>
-</footer>
+<script>
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
+</script>
+
 
 </body>
 </html>
