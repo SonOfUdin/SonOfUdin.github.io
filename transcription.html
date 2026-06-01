@@ -25,51 +25,52 @@
 
 	    <!-- The audio element controls layout -->
 
-    <audio id="my-audio" controls>
+<audio id="audio-player" controls>
+  <source src="" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
-        Your browser does not support the audio element.
+<button id="shuffle-btn">🔀 Next Random Song</button>
 
-    </audio>
+<script>
+  // Add your GitHub Pages audio file paths here
+  const audioFiles = [
+"https://github.com/user-attachments/files/28468419/easy01.mp3",
 
- 
+"https://github.com/user-attachments/files/28468420/easy02.mp3",
 
-    <script>
+"https://github.com/user-attachments/files/28468422/easy03.mp3",
 
-        // 1. List the relative paths to your audio files
+"https://github.com/user-attachments/files/28468421/easy04.mp3",
 
-        const audioFiles = [
+"https://github.com/user-attachments/files/28468418/easy05.mp3",
 
-'https://github.com/user-attachments/files/28468419/easy01.mp3',
+"https://github.com/user-attachments/files/28468423/easy06.mp3"
+  ];
 
-'https://github.com/user-attachments/files/28468420/easy02.mp3'
+  const player = document.getElementById("audio-player");
+  const shuffleBtn = document.getElementById("shuffle-btn");
+  let currentTrack = -1;
 
-'https://github.com/user-attachments/files/28468422/easy03.mp3'
+  function queueRandomTrack() {
+    let randomIndex;
+    
+    // Prevent picking the exact same song twice in a row
+    do {
+      randomIndex = Math.floor(Math.random() * audioFiles.length);
+    } while (randomIndex === currentTrack && audioFiles.length > 1);
 
-'https://github.com/user-attachments/files/28468421/easy04.mp3'
+    currentTrack = randomIndex;
+    player.src = audioFiles[currentTrack];
+    player.load(); // Loads the new track in a paused state
+  }
 
-'https://github.com/user-attachments/files/28468418/easy05.mp3'
+  // Pick initial song on page load (starts paused)
+  queueRandomTrack();
 
-'https://github.com/user-attachments/files/28468423/easy06.mp3'       
-
-];
-
- 
-
-        // 2. Select a random index from the array
-
-        const randomIndex = Math.floor(Math.random() * audioFiles.length);
-
-        const selectedAudio = audioFiles[randomIndex];
-
- 
-
-        // 3. Inject the random file path into the HTML audio player
-
-        const audioPlayer = document.getElementById('my-audio');
-
-        audioPlayer.src = selectedAudio;
-
-    </script>
+  // Click button to load a new random song without playing it
+  shuffleBtn.addEventListener("click", queueRandomTrack);
+</script>
 
     <!-- Formspree Integration Form -->
     <!-- ⚠️ REPLACE THE ACTION URL BELOW WITH YOUR ACTUAL FORMSPREE ENDPOINT URL -->
