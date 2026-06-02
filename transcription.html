@@ -74,20 +74,15 @@
   shuffleBtn.addEventListener("click", queueRandomTrack);
 </script>
 <br> <hr> <br>
-    <!-- Formspree Integration Form -->
-    <!-- ⚠️ REPLACE THE ACTION URL BELOW WITH YOUR ACTUAL FORMSPREE ENDPOINT URL -->
-    <form action="https://formspree.io/f/mdajbpkq" method="POST">
-                
-        <label for="studentName"><strong>Your Name (Surname First):</strong></label>
-        <input type="text" id="studentName" name="Student Name" required placeholder="Enter your full name">
+	<!-- Web3Forms Integration Form -->
+	<form action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value="83a7cf05-4be7-4c2b-97d8-df5279b4dd6a">
+  <input type="text" name="name" required>
+  <input type="email" name="email" required>
+  <textarea name="message" required></textarea>
+  <button type="submit">Submit</button>
+</form>
 
-        <!-- Transcription Text Box -->
-        <label for="transcriptBox"><strong>Type your transcription below:</strong></label>
-        <textarea id="transcriptBox" name="Transcription Text" required placeholder="Start listening and typing here..."></textarea>
-
-        <!-- Submit Button -->
-        <button type="submit" class="btn">Submit Transcription</button>
-    </form>
 </div>
 
 		<hr>
