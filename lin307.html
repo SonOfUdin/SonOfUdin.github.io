@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIN206_Transcription</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background-color: #f9f9f9; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        audio { width: 100%; margin: 15px 0 20px 0; }
+        textarea { width: 100%; height: 250px; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; box-sizing: border-box; }
+        input[type="text"] { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn { background-color: #0066cc; color: white; padding: 12px 20px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 15px; width: 100%; }
+        .btn:hover { background-color: #0052a3; }
+        .hotkeys { background: #eef2f7; padding: 10px; margin-bottom: 15px; border-left: 5px solid #0066cc; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>LIN307 Audio Data for Transcription</h2>
+
+ 
+    <div class="hotkeys"><strong>Hotkey:</strong> Press <strong>Ctrl + Space</strong> to Play/Pause audio while typing.</div>
+
+	    <!-- The audio element controls layout -->
+
+<audio id="audio-player" controls>
+  <source src="" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+
+
+<script>
+  // Add your GitHub Pages audio file paths here
+  const audioFiles = [
+"https://github.com/user-attachments/files/28370797/transcribing_1.mp3",
+
+"https://github.com/user-attachments/files/28468419/easy01.mp3",
+
+"https://github.com/user-attachments/files/28468420/easy02.mp3",
+
+"https://github.com/user-attachments/files/28468422/easy03.mp3",
+
+"https://github.com/user-attachments/files/28468421/easy04.mp3",
+
+"https://github.com/user-attachments/files/28468418/easy05.mp3",
+
+"https://github.com/user-attachments/files/28468423/easy06.mp3"
+  ];
+
+  const player = document.getElementById("audio-player");
+  const shuffleBtn = document.getElementById("shuffle-btn");
+  let currentTrack = -1;
+
+  function queueRandomTrack() {
+    let randomIndex;
+    
+    // Prevent picking the exact same song twice in a row
+    do {
+      randomIndex = Math.floor(Math.random() * audioFiles.length);
+    } while (randomIndex === currentTrack && audioFiles.length > 1);
+
+    currentTrack = randomIndex;
+    player.src = audioFiles[currentTrack];
+    player.load(); // Loads the new track in a paused state
+  }
+
+  // Pick initial song on page load (starts paused)
+  queueRandomTrack();
+
+  // Click button to load a new random song without playing it
+  shuffleBtn.addEventListener("click", queueRandomTrack);
+</script>
+<br> <hr> <br>
+	<!-- Web3Forms Integration Form -->
+	<form action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value="83a7cf05-4be7-4c2b-97d8-df5279b4dd6a">
+		<label for="studentName"><strong>Your Name (Surname First):</strong></label>
+  <input type="text" name="name" required placeholder="Enter your full name starting with surname" required> <br><br> 
+		<label for="transcriptBox"><strong>Type your transcription below:</strong></label>
+  <textarea name="message" required placeholder="Start listening and typing here..." required></textarea>
+  <button type="submit">Submit Transcription</button>
+</form>
+
+</div>
+
+		<hr>
+	<br><br>
+
+
+ <div class="w3-white w3-center w3-padding-24">    
+<footer>    
+	<center>
+			<p class="copyright"> &copy Philip O. Ekiugbo</p>
+	<a href="https://www.researchgate.net/profile/Philip-Ekiugbo?ev=hdr_xprf" target="_blank"> <img src="https://user-images.githubusercontent.com/90072727/182993568-c4c6fce3-5917-4b3c-8bff-155596bbbe96.png" width="20" height="20"/></a>    
+	<a href="https://www.linkedin.com/in/philip-oghenesuowho-ekiugbo-80574b101?originalSubdomain=ng" target="_blank"> <img src="https://user-images.githubusercontent.com/90072727/184515892-24fd3d1a-b5a5-426c-9058-15209a24474e.png" width="20" height="20"/></a>    
+	<a href="https://www.facebook.com/pekiugbo/" target="_blank"> <img src="https://user-images.githubusercontent.com/90072727/184515929-952b1319-d911-4417-8df3-6ee2f7354634.png" width="20" height="20"/></a>   
+	<a href="https://twitter.com?PGajin?s=09" target="_blank"> <img src="https://user-images.githubusercontent.com/90072727/184515965-64c52b7f-030a-4f0e-a123-4f1e9c7f70b3.png" width="20" height="20"/></a>   
+	<a href="https://wa.me/2347062851103"> <img src="https://user-images.githubusercontent.com/90072727/182992218-873857e5-325f-4c1a-a733-e36e28d4cd2e.png" width="20" height="20"></a>  
+	<br>
+					<a href="index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-center w3-padding-16">Visit My Home Page</a> 
+	</center>
+</footer>
+  </div>
+
+<script>
+    const audio = document.getElementById('audioPlayer');
+    const textarea = document.getElementById('transcriptBox');
+
+    // Ctrl + Space to Play/Pause
+    textarea.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.code === 'Space') {
+            e.preventDefault();
+            if (audio.paused) { audio.play(); } else { audio.pause(); }
+        }
+    });
+</script>
+
+</body>
+</html>
