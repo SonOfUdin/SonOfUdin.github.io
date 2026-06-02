@@ -77,10 +77,13 @@
 	<!-- Web3Forms Integration Form -->
 	<form action="https://api.web3forms.com/submit" method="POST">
   <input type="hidden" name="access_key" value="83a7cf05-4be7-4c2b-97d8-df5279b4dd6a">
-  <input type="text" name="name" required>
+		<label for="studentName"><strong>Your Name (Surname First):</strong></label>
+  <input type="text" name="name" required placeholder="Enter your full name starting with surname" required> <br>
+		
   <input type="email" name="email" required>
-  <textarea name="message" required></textarea>
-  <button type="submit">Submit</button>
+		<br> <label for="transcriptBox"><strong>Type your transcription below:</strong></label>
+  <textarea name="message" required placeholder="Start listening and typing here..." required></textarea>
+  <button type="submit">Submit Transcription</button>
 </form>
 
 </div>
