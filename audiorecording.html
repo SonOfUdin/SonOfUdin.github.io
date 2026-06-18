@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Informant Data & Audio Capture</title>
+    <!-- Include Supabase JS -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body>
+    <h2>Informant Submission Form</h2>
+    <form id="informant-form">
+        <label>Name: <input type="text" id="name" required></label><br><br>
+        <label>Age: <input type="number" id="age" required></label><br><br>
+        
+        <h3>Record Audio</h3>
+        <button type="button" id="start-btn">Start Recording</button>
+        <button type="button" id="stop-btn" disabled>Stop Recording</button>
+        <p id="status-text">Status: Ready</p>
+        
+        <br><br>
+        <button type="submit" id="submit-btn" disabled>Submit Data</button>
+    </form>
+
+    <script>
+        // Insert your Supabase details here
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioBlob;
+
+        // Initialize Recording
+        document.getElementById('start-btn').addEventListener('click', async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+            
+            mediaRecorder.onstop = () => {
+                audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                document.getElementById('status-text').innerText = 'Recording stopped. Ready to submit.';
+                document.getElementById('submit-btn').disabled = false;
+            };
+
+            mediaRecorder.start();
+            document.getElementById('status-text').innerText = 'Recording...';
+            document.getElementById('start-btn').disabled = true;
+            document.getElementById('stop-btn').disabled = false;
+        });
+
+        document.getElementById('stop-btn').addEventListener('click', () => {
+            mediaRecorder.stop();
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('stop-btn').disabled = true;
+        });
+
+        // Form Submission
+        document.getElementById('informant-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            document.getElementById('status-text').innerText = 'Submitting...';
+
+            const name = document.getElementById('name').value;
+            const age = parseInt(document.getElementById('age').value);
+            const fileName = `informant_${Date.now()}.wav`;
+
+            // 1. Upload audio to Supabase Storage
+            const { data: uploadData, error: uploadError } = await supabase.storage
+                .from('audio-bucket') // Ensure this bucket exists in your dashboard
+                .upload(fileName, audioBlob);
+
+            if (uploadError) return alert('Upload Error: ' + uploadError.message);
+
+            // 2. Save informant data to Database
+            const { data: dbData, error: dbError } = await supabase
+                .from('informants') // Ensure this table exists in your dashboard
+                .insert([{ name: name, age: age, audio_file_url: fileName }]);
+
+            if (dbError) return alert('Database Error: ' + dbError.message);
+
+            alert('Informant and audio submitted successfully!');
+            document.getElementById('informant-form').reset();
+            document.getElementById('status-text').innerText = 'Ready';
+            document.getElementById('submit-btn').disabled = true;
+        });
+    </script>
+</body>
+</html>
