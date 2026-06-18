@@ -9,8 +9,36 @@
 <body>
     <h2>Informant Submission Form</h2>
     <form id="informant-form">
-        <label>Name: <input type="text" id="name" required></label><br><br>
-        <label>Age: <input type="number" id="age" required></label><br><br>
+        <label>Name (Surname first): <input type="text" id="name" placeholder="e.g. Ekiugbo Philip" required></label><br><br>
+        <label>Topic Discussed</label>
+              <select id="topic-discussed" required>
+              <option value="" disabled selected>Select your topic...</option>
+                        <option value="topic_1">Topic 1: A festival in your culture.</option>
+                  <option value="topic_2">Topic 2: How to prepare your favourite native food.</option>
+                  <option value="topic_3">Topic 3: How to prepare a traditional medicine for treating any ailment.</option>
+                  <option value="topic_4">Topic 4: How traditional marriages are done in your culture.</option>
+                  <option value="topic_5">Topic 5: How traditional burials are conducted in your culture.</option>
+              </select>
+        <br><br>
+         <label for="audio-language">Language</label>
+                    <select id="audio-language" required>
+                        <option value="" disabled selected>Select your language...</option>
+                        <option value="Edo">Edo</option>
+                        <option value="Esan">Esan</option>
+                        <option value="Etsako">Etsako</option>
+                        <option value="Ibibio">Ibibio</option>
+                        <option value="Igbanke">Igbanke</option>
+                        <option value="Igbo">Igbo</option>
+                        <option value="Isoko">Isoko</option>
+                        <option value="Itsekiri">Itsekiri</option>
+                        <option value="Nigerian Pidgin">Nigerian Pidgin</option>
+                        <option value="Ora">Ora</option>
+                        <option value="Ukwuani">Ukwuani</option>
+                        <option value="Urhobo">Urhobo</option>
+                        <option value="Yoruba">Yoruba</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
         
         <h3>Record Audio</h3>
         <button type="button" id="start-btn">Start Recording</button>
