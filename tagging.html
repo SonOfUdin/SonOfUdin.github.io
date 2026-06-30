@@ -7,13 +7,41 @@
   <!-- RecogitoJS CSS -->
   <link rel="stylesheet" href="https://jsdelivr.net">
   <style>
+    /* Global Layout */
     body { font-family: sans-serif; max-width: 800px; margin: 20px auto; padding: 0 10px; line-height: 1.6; }
     #annotation-area { border: 1px solid #ccc; padding: 20px; border-radius: 5px; background: #fafafa; white-space: pre-wrap; font-size: 1.1em; }
-    .controls { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
-    button, input[type="file"] { padding: 10px 15px; font-size: 14px; cursor: pointer; }
-    button { background-color: #007bff; color: white; border: none; border-radius: 4px; }
+    .controls { margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; background: #f8f9fa; padding: 15px; border-radius: 5px; }
+    .control-group { display: flex; flex-direction: column; gap: 5px; }
+    label { font-weight: bold; font-size: 14px; color: #495057; }
+    button, input[type="file"], input[type="text"] { padding: 10px 15px; font-size: 14px; border-radius: 4px; border: 1px solid #ced4da; }
+    input[type="text"] { width: 200px; }
+    button { background-color: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; margin-top: auto; height: 40px; }
     button:hover { background-color: #0056b3; }
     .instructions { background: #e9ecef; padding: 15px; border-left: 5px solid #007bff; margin-bottom: 20px; }
+
+    /* Custom RecogitoJS Color Theme Map */
+    
+    /* 1. NOUNS (Blue Theme) */
+    .r6o-annotation[data-tag="NOUN"] { background-color: rgba(0, 123, 255, 0.25) !important; border-bottom: 2px solid #007bff !important; }
+    
+    /* 2. VERBS (Green Theme) */
+    .r6o-annotation[data-tag="VERB"] { background-color: rgba(40, 167, 69, 0.25) !important; border-bottom: 2px solid #28a745 !important; }
+    
+    /* 3. ADJECTIVES (Yellow/Orange Theme) */
+    .r6o-annotation[data-tag="ADJ"] { background-color: rgba(255, 193, 7, 0.3) !important; border-bottom: 2px solid #ffc107 !important; }
+    
+    /* 4. ADVERBS (Purple Theme) */
+    .r6o-annotation[data-tag="ADV"] { background-color: rgba(111, 66, 193, 0.25) !important; border-bottom: 2px solid #6f42c1 !important; }
+    
+    /* 5. PRONOUNS (Cyan Theme) */
+    .r6o-annotation[data-tag="PRON"] { background-color: rgba(23, 162, 184, 0.25) !important; border-bottom: 2px solid #17a2b8 !important; }
+    
+    /* 6. DETERMINERS & PREPOSITIONS (Pink Theme) */
+    .r6o-annotation[data-tag="DET"], .r6o-annotation[data-tag="DET"] { background-color: rgba(232, 62, 140, 0.2) !important; border-bottom: 2px solid #e83e8c !important; }
+    .r6o-annotation[data-tag="PREP"], .r6o-annotation[data-tag="PREP"] { background-color: rgba(253, 126, 20, 0.2) !important; border-bottom: 2px solid #fd7e14 !important; }
+
+    /* Optional: Make the small preview tag pills inside the UI look cohesive */
+    .r6o-tag { background: #343a40 !important; color: #fff !important; font-weight: bold; border-radius: 3px; }
   </style>
 </head>
 <body>
@@ -22,18 +50,28 @@
   
   <div class="instructions">
     <strong>Instructions for Students:</strong><br>
-    1. Upload your text file (.txt).<br>
-    2. Highlight words to apply a Part-of-Speech tag.<br>
-    3. Click "Export Annotations" to download your finished <code>.txt</code> work file.
+    1. Type your full name in the box.<br>
+    2. Upload your assignment text file (.txt).<br>
+    3. Highlight text to apply POS tags.<br>
+    4. Export your work and submit the resulting file.
   </div>
 
   <div class="controls">
-    <input type="file" id="file-loader" accept=".txt">
+    <div class="control-group">
+      <label for="student-name">Student Name:</label>
+      <input type="text" id="student-name" placeholder="Enter your full name" required>
+    </div>
+    
+    <div class="control-group">
+      <label for="file-loader">Select Text File:</label>
+      <input type="file" id="file-loader" accept=".txt">
+    </div>
+
     <button id="export-btn">Export Annotations (.txt)</button>
   </div>
 
   <!-- The container text target for RecogitoJS -->
-  <div id="annotation-area">Please upload a text file to begin tagging...</div>
+  <div id="annotation-area">Please fill in your name and upload a text file to begin...</div>
 
   <!-- RecogitoJS Library -->
   <script src="https://jsdelivr.net"></script>
@@ -42,13 +80,13 @@
     let taggerInstance = null;
     let originalText = "";
 
-    // 1. Initialize Recogito with Preset POS Tags
+    // Initialize Recogito with Preset POS Tags
     function initRecogito() {
       if (taggerInstance) taggerInstance.destroy();
       
       taggerInstance = Recogito.init({
         content: document.getElementById('annotation-area'),
-        mode: 'pre', // Preserves text spacing and formatting
+        mode: 'pre',
         widgets: [
           { 
             widget: 'TAG', 
@@ -58,7 +96,7 @@
       });
     }
 
-    // 2. Handle Student File Upload
+    // Handle Student File Upload
     document.getElementById('file-loader').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -66,54 +104,60 @@
       const reader = new FileReader();
       reader.onload = function(evt) {
         originalText = evt.target.result;
-        const container = document.getElementById('annotation-area');
-        container.textContent = originalText;
-        
-        // Re-initialize to hook into the new static text content
+        document.getElementById('annotation-area').textContent = originalText;
         initRecogito();
       };
       reader.readAsText(file);
     });
 
-    // 3. Convert Annotations to Word/Tag Sequence Format (.txt)
+    // Convert Annotations to Word/Tag Sequence Format with Metadata Header
     document.getElementById('export-btn').addEventListener('click', function() {
-      if (!taggerInstance) {
-        alert("No text loaded yet!");
+      const nameInput = document.getElementById('student-name').value.trim();
+      
+      // Validation check for student name
+      if (!nameInput) {
+        alert("Please enter your name before exporting your work.");
+        document.getElementById('student-name').focus();
         return;
       }
 
-      // Grab current raw annotations array
+      if (!taggerInstance || originalText === "") {
+        alert("No text loaded yet! Please upload a file first.");
+        return;
+      }
+
       const annotations = taggerInstance.getAnnotations();
       
-      // Sort annotations chronologically based on text position index
-      annotations.sort((a, b) => {
-        return a.target.selector[1].start - b.target.selector[1].start;
-      });
+      // Sort annotations by their character position
+      annotations.sort((a, b) => a.target.selector.start - b.target.selector.start);
 
+      // Construct file metadata header
       let outputLines = [];
+      outputLines.push(`STUDENT: ${nameInput}`);
+      outputLines.push(`DATE: ${new Date().toLocaleDateString()}`);
+      outputLines.push(`TOTAL_ANNOTATIONS: ${annotations.length}`);
+      outputLines.push("========================================");
+      outputLines.push("WORD\tPOS_TAG");
+      outputLines.push("----------------------------------------");
       
       if (annotations.length === 0) {
-        // Fallback if they exported a completely raw document
-        outputLines.push(originalText);
+        outputLines.push("[No tags applied to the document]");
       } else {
-        // Format as a tab-separated evaluation sheet (Word -> POS)
-        outputLines.push("WORD\tPOS_TAG");
-        outputLines.push("---------------------");
-        
         annotations.forEach(ann => {
-          const exactText = ann.target.selector[1].exact;
-          // Extract chosen tag value from structure safely
+          const exactText = ann.target.selector.exact.replace(/\n/g, " "); // clean token
           const tagValue = ann.body && ann.body[0] ? ann.body[0].value : "UNTAGGED";
-          
           outputLines.push(`${exactText}\t${tagValue}`);
         });
       }
 
-      // 4. Trigger Native File Download
+      // Generate a clean slug for the filename
+      const safeName = nameInput.toLowerCase().replace(/[^a-z0-9]/g, "_");
+      
+      // Trigger native download
       const blob = new Blob([outputLines.join("\n")], { type: "text/plain;charset=utf-8" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "pos_annotations.txt";
+      link.download = `pos_assignment_${safeName}.txt`;
       link.click();
     });
   </script>
