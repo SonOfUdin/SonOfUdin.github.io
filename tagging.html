@@ -80,22 +80,22 @@
     let taggerInstance = null;
     let originalText = "";
 
-    // Initialize Recogito with Preset POS Tags
-    function initRecogito() {
-      if (taggerInstance) taggerInstance.destroy();
-      
-      taggerInstance = Recogito.init({
-        content: document.getElementById('annotation-area'),
-        mode: 'pre',
-        widgets: [
-          { 
-            widget: 'TAG', 
-            vocabulary: ['NOUN', 'VERB', 'ADJ', 'ADV', 'PRON', 'DET', 'PREP', 'CONJ', 'PUNCT'] 
-          }
-        ]
-      });
-    }
-
+   // Initialize Recogito with Preset Visible Tags
+function initRecogito() {
+  if (taggerInstance) taggerInstance.destroy();
+  
+  taggerInstance = Recogito.init({
+    content: document.getElementById('annotation-area'),
+    mode: 'pre',
+    widgets: [
+      { 
+        widget: 'TAG', 
+        vocabulary: ['NOUN', 'VERB', 'ADJ', 'ADV', 'PRON', 'DET', 'PREP', 'CONJ', 'PUNCT'],
+        formatter: 'dropdown' // Forces a clean select menu inside the popup card
+      }
+    ]
+  });
+}
     // Handle Student File Upload
     document.getElementById('file-loader').addEventListener('change', function(e) {
       const file = e.target.files[0];
